@@ -124,6 +124,94 @@ You can view the live preview of the project [here](https://code-sync-live.verce
    http://localhost:5173/
    ```
 
+### Method 3: Kubernetes
+#### Prerequisites
+
+Before you begin, ensure you have the following installed:
+- [Docker](https://docs.docker.com/get-docker/)
+- [Minikube](https://minikube.sigs.k8s.io/docs/start/)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/)
+- [Node.js](https://nodejs.org/) (v18 or later)
+- [npm](https://www.npmjs.com/)
+
+#### Setting up Kubernetes Environment
+
+1. Start Minikube:
+```bash
+minikube start
+```
+
+2. Enable Minikube addons:
+
+```bash
+minikube addons enable ingress
+```
+
+3. Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/code-sync.git
+cd code-sync
+```
+
+4. Make the deploy script executable:
+
+```bash
+chmod +x deploy.sh
+```
+
+5. Deploy the application:
+
+```bash
+./deploy.sh
+```
+
+The deploy script will:
+- Start Minikube if it's not running
+- Build Docker images for frontend and backend
+- Create necessary Kubernetes resources
+- Configure networking and environment variables
+#### Access the application:
+- The script will output the URLs for frontend and backend
+- Frontend will be available at: `http://<minikube-ip>:30001`
+- Backend will be available at: `http://<minikube-ip>:30002`
+
+### Troubleshooting
+
+#### Check pod status:
+
+```bash
+kubectl get pods
+```
+
+#### View pod logs:
+
+```bash
+# For frontend
+kubectl logs -l app=frontend
+
+# For backend
+kubectl logs -l app=backend
+```
+
+#### Restart deployment:
+
+```bash
+kubectl rollout restart deployment frontend
+kubectl rollout restart deployment backend
+```
+
+#### Clean up:
+
+```bash
+# Delete all resources
+kubectl delete all --all
+kubectl delete configmap app-config
+
+# Stop Minikube
+minikube stop
+```
+
 ## 🔮 Features for next release
 
 - **Admin Permission:** Implement an admin permission system to manage user access levels and control over certain platform features.
