@@ -15,8 +15,9 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || 'http://192.168.49.2:30001',
+    origin: [process.env.CORS_ORIGIN || 'http://192.168.49.2:30001'],
     credentials: true,
+    methods: ['GET', 'POST', 'OPTIONS'],
   })
 );
 
@@ -25,7 +26,7 @@ app.use(express.static(path.join(__dirname, 'public'))); // Serve static files
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: process.env.CORS_ORIGIN || 'http://192.168.49.2:30001',
+    origin: [process.env.CORS_ORIGIN || 'http://192.168.49.2:30001'],
     methods: ['GET', 'POST'],
     credentials: true,
   },
